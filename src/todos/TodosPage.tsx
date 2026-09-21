@@ -1,5 +1,6 @@
 import { type FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import {deteteJWT} from "../auth/auth.service"
 
 import type { TodoItem } from './todo-item';
 import { createTodo, getTodos } from './todo.service';
@@ -44,7 +45,7 @@ export function TodosPage() {
   }
 
   function logout() {
-    // TODO: clear the authentication state once JWT authentication is implemented.
+    deteteJWT();
     navigate('/');
   }
 

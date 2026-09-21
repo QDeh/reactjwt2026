@@ -1,5 +1,6 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
+import {login} from "./auth.service"
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -8,9 +9,7 @@ export function LoginPage() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    // TODO: authenticate against the backend before navigating.
-    navigate('/todos');
+    login(username,password).then(() => navigate('/todos'))
   }
 
   return (
