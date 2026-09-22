@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import {login} from "./auth.service"
 
@@ -7,9 +7,9 @@ export function LoginPage() {
   const [username, setUsername] = useState('bastien@example.com');
   const [password, setPassword] = useState('tacostacos');
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    login(username,password).then(() => navigate('/todos'))
+    login(username,password).then(() => navigate('/todos'));
   }
 
   return (

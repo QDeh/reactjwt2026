@@ -1,6 +1,6 @@
-import { type FormEvent, useEffect, useState } from 'react';
+import { type SubmitEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import {deteteJWT} from "../auth/auth.service"
+import {deleteJWT, hasRole} from "../auth/auth.service"
 
 import type { TodoItem } from './todo-item';
 import { createTodo, getTodos } from './todo.service';
@@ -23,7 +23,7 @@ export function TodosPage() {
     void loadTodos();
   }, []);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const trimmedTitle = title.trim();
@@ -45,7 +45,7 @@ export function TodosPage() {
   }
 
   function logout() {
-    deteteJWT();
+    deleteJWT();
     navigate('/');
   }
 
@@ -61,22 +61,25 @@ export function TodosPage() {
         )}
       </ul>
 
-      <h2>Create a new todo item:</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <span>Title: </span>
-          <input
-            autoComplete="off"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            required
-          />
-        </label>
-
-        <button type="submit" disabled={!title.trim() || isSubmitting}>
-          {isSubmitting ? 'Adding…' : 'Add'}
-        </button>
-      </form>
+      {hasRole("ROLE_ADMIN") && (
+        <>
+        <h2>Create a new todo item:</h2>
+        <form onSubmit={handleSubmit}>
+          <label>
+            <span>Title: </span>
+            <input
+              autoComplete="off"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              required
+            />
+          </label>
+          <button type="submit" disabled={!title.trim() || isSubmitting}>
+            {isSubmitting ? 'Adding…' : 'Add'}
+          </button>
+        </form>
+        </>
+      )}
 
       <button type="button" onClick={logout}>
         Déconnexion
